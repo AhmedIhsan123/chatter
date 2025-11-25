@@ -3,6 +3,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.Socket;
 
 // To recompile files and run client:
 // javac src/*.java && java -cp src ChatClient
@@ -11,9 +12,9 @@ public class ChatClient {
 
     public static void main(String[] args) {
        try {
-        readFromFile("LICENSE");
+        readFromSocket("localhost", 12345);
        } catch (IOException e) {
-        System.err.println("Error reading from file ");
+        System.err.println("Error reading from socket");
         System.err.println(e.getMessage());
         System.exit(1);
        }
@@ -33,6 +34,17 @@ public class ChatClient {
     }
 
     public static void readFromSocket(String host, int port) throws IOException {
-        
+        Socket socket = new Socket(host, port);
+
+        InputStream inputStream = socket.getInputStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, java.nio.charset.StandardCharsets.UTF_8);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+        String line; // A variable to track the current line
+        // Assign the line variable the current line the buffered reader is reading
+        // Check if its not null all in one line, this is possible due to ()
+        while ((line = bufferedReader.readLine()) != null) {
+            System.out.println(line); // Read a line and print it to the console
+        }
     }
 }
