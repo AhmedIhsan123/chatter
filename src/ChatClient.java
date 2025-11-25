@@ -24,7 +24,12 @@ public class ChatClient {
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream, java.nio.charset.StandardCharsets.UTF_8); // Converts bytes to characters (UTF-8)
         BufferedReader bufferedReader = new BufferedReader(inputStreamReader); // Converts characters into readable strings
 
-        System.out.println(bufferedReader.readLine()); // Read a single line and print it to the console
+        String line; // A variable to track the current line
+        // Assign the line variable the current line the buffered reader is reading
+        // Check if its not null all in one line, this is possible due to ()
+        while ((line = bufferedReader.readLine()) != null) {
+            System.out.println(line); // Read a line and print it to the console
+        }
     }
 
     public static void readFromSocket(String host, int port) throws IOException {
