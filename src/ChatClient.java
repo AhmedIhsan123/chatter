@@ -32,19 +32,20 @@ public class ChatClient {
             System.out.println(line); // Read a line and print it to the console
         }
     }
-
+    
     public static void readFromSocket(String host, int port) throws IOException {
-        Socket socket = new Socket(host, port);
-
-        InputStream inputStream = socket.getInputStream();
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream, java.nio.charset.StandardCharsets.UTF_8);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-        String line; // A variable to track the current line
-        // Assign the line variable the current line the buffered reader is reading
-        // Check if its not null all in one line, this is possible due to ()
-        while ((line = bufferedReader.readLine()) != null) {
-            System.out.println(line); // Read a line and print it to the console
+        // Try to make a new socket and connect to the host
+        try (Socket socket = new Socket(host, port)) {
+            InputStream inputStream = socket.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, java.nio.charset.StandardCharsets.UTF_8);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+    
+            String line; // A variable to track the current line
+            // Assign the line variable the current line the buffered reader is reading
+            // Check if its not null all in one line, this is possible due to ()
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line); // Read a line and print it to the console
+            }
         }
     }
 }

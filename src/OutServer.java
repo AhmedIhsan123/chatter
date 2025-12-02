@@ -20,20 +20,20 @@ public class OutServer {
     }
 
     public static void writeToSocket(int port) throws IOException {
-        ServerSocket server = new ServerSocket(port);
-
-        System.out.println("Waiting for client to connect..."); // Debug message
-        Socket socket = server.accept(); // Ready to accept client
-        System.out.println("Client connected!");
-
-        OutputStream outputStream = socket.getOutputStream();
-        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, java.nio.charset.StandardCharsets.UTF_8);
-        BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
-        
-        while (true) {
-            bufferedWriter.write("YOOOO!");
-            bufferedWriter.newLine();
-            bufferedWriter.flush();
+        try (ServerSocket server = new ServerSocket(port)) {
+            System.out.println("Waiting for client to connect..."); // Debug message
+            Socket socket = server.accept(); // Ready to accept client
+            System.out.println("Client connected!");
+    
+            OutputStream outputStream = socket.getOutputStream();
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(outputStream, java.nio.charset.StandardCharsets.UTF_8);
+            BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
+            
+            while (true) {
+                bufferedWriter.write("YOOOO!");
+                bufferedWriter.newLine();
+                bufferedWriter.flush();
+            }
         }
     }
 }
